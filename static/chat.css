@@ -1,0 +1,529 @@
+/* Temel renk değişkenleri */
+:root {
+  --whatsapp-green: #25d366;
+  --whatsapp-green-dark: #128c7e;
+  --bg-color: #ece5dd;
+  --chat-bg: #ffffff;
+  --incoming-msg-bg: #ffffff;
+  --outgoing-msg-bg: #dcf8c6;
+  --text-color: #222;
+  --time-color: #999;
+}
+
+/* Genel body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px;
+  padding: 15px 20px;
+  background-color: var(--whatsapp-green);
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+header > * {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+header img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#headerUsername {
+  color: white;
+  font-weight: 600;
+}
+
+/* Chat container */
+#chat-container {
+  flex: 1;
+  background: url('/static/backgrounds/arkaplan.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-width: 100vw;
+}
+
+/* Mesaj listesi */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+}
+
+/* Gelen mesaj konteyneri */
+.message-container.incoming {
+  align-self: flex-start;
+  flex-direction: row;
+  gap: 8px;
+  display: flex;
+  align-items: flex-start;
+  max-width: 80%;
+  margin-left: 14px; /* biraz daha sağa kaydırıldı */
+}
+
+/* Gelen avatar */
+.message-container.incoming > img.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-top: 20px;
+  margin-left: 14px;
+}
+
+/* Avatar ile mesaj içeriği arasındaki container */
+.bubble-container {
+   display: flex;
+  flex-direction: row; /* column yerine row */
+  align-items: center; /* dikey ortala */
+  gap: 8px; /* isim ile mesaj arası boşluk */
+  margin-left: -6px; /* varsa koru */
+}
+
+/* Gönderen ismi */
+.sender-name {
+    font-weight: 600;
+  font-size: 13px;
+  color: var(--whatsapp-green-dark);
+  user-select: none;
+  /* genişliği isim uzunluğuna göre ayarlansın */
+  white-space: nowrap;
+}
+
+/* Mesaj balonu */
+.message {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* Mesaj ile saat/tik arası boşluk */
+  padding: 10px 14px 10px 14px; /* alt padding ihtiyaca göre ayarlanabilir */
+  max-width: 60vw;
+  border-radius: 18px;
+  background: var(--outgoing-msg-bg); /* ya da var(--incoming-msg-bg) */
+  color: var(--text-color);
+  position: relative;
+  font-size: 15px;
+  white-space: nowrap; /* Tek satırda tutar, istersen kaldır */
+}
+
+/* Gelen mesaj arka planı */
+.incoming .message {
+  background: var(--incoming-msg-bg);
+  border-radius: 18px 18px 18px 5px;
+  box-shadow: 0 1px 0.5px rgb(0 0 0 / 0.13);
+  color: var(--text-color);
+}
+
+/* Giden mesaj konteyneri */
+.message-container.outgoing {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 80%;
+  margin-right: 14px;
+}
+
+/* Giden avatar */
+.message-container.outgoing > img.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-top: 20px;
+  margin-right: 14px;
+}
+
+/* Giden mesaj balonu */
+.outgoing .message {
+  background: var(--outgoing-msg-bg);
+  border-radius: 18px 18px 5px 18px;
+  padding: 10px 14px 8px 14px; /* alt padding mesaj zamanı için */
+  position: relative;
+  font-size: 15px;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 60vw;
+  width: fit-content;
+  box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  color: var(--text-color);
+}
+
+/* Gelen ve giden sesli mesaj oynatıcı */
+.message audio {
+ margin-top: 6px;
+  width: 200px;       /* Genişlik ayarlanabilir */
+  height: 32px;       /* Yükseklik */
+  border-radius: 12px;
+  outline: none;
+  background-color: #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  padding: 4px 8px;
+  display: block;
+}
+
+/* Sesli mesaj süresi */
+.audio-duration {
+  display: none !important;
+}
+/* Sesli mesaj için baloncuksuz sade görünüm */
+.message.audio-message {
+  padding: 4px 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+}
+
+/* Ses çalar */
+.message.audio-message audio {
+  width: 200px;
+  height: 32px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  margin: 0 auto;
+  display: block;
+}
+
+
+/* Mesaj zaman ve tik ayarı */
+.time {
+ font-size: 11px;
+  color: var(--time-color);
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Okunma tikleri */
+.read-receipt {
+  font-size: 13px;
+  color: #888888;
+  margin-left: 4px;
+}
+
+.read-receipt.read {
+   color: #4fc3f7;
+}
+
+/* Metin stil */
+.text {
+  flex-shrink: 1; /* Metnin esneyebilmesi için */
+  overflow-wrap: break-word; /* Uzun kelimeleri kır */
+  white-space: normal; /* Alt satıra geçebilir */
+}
+
+/* Footer ve butonlar */
+footer {
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 -2px 4px rgb(0 0 0 / 0.1);
+}
+
+#messageInput {
+  flex: 1;
+  padding: 12px 15px;
+  font-size: 15px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  resize: none;
+  min-width: 0;
+}
+
+button#emojiBtn:hover,
+button#recordBtn:hover,
+button#sendBtn:hover {
+  background-color: #1ebe5b;
+}
+
+button#uploadBtn,
+button#emojiBtn,
+button#voiceCallBtn,
+button#videoCallBtn,
+button#sendBtn {
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+button#uploadBtn {
+  background-color: var(--whatsapp-green) !important;
+  color: white !important;
+  font-size: 32px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  user-select: none !important;
+  transition: background-color 0.3s ease !important;
+}
+
+button#uploadBtn:hover {
+  background-color: #1ebe5b !important;
+}
+
+button#emojiBtn {
+  background-color: transparent;
+  color: var(--whatsapp-green-dark);
+  font-size: 22px;
+  cursor: default;
+}
+
+button#emojiBtn:hover {
+  background-color: transparent;
+  color: var(--whatsapp-green-dark);
+}
+
+button#voiceCallBtn,
+button#videoCallBtn,
+button#sendBtn {
+  background-color: var(--whatsapp-green);
+}
+
+button#uploadBtn:hover {
+  background-color: #1ebe5b;
+}
+
+button#emojiBtn:hover {
+  background-color: #d6f5e1;
+  color: var(--whatsapp-green-dark);
+}
+
+button#voiceCallBtn:hover,
+button#videoCallBtn:hover,
+button#sendBtn:hover {
+  background-color: #1ebe5b;
+}
+
+#typing {
+  font-style: italic;
+  font-size: 14px;
+  color: var(--whatsapp-green-dark);
+  margin-left: 15px;
+  height: 20px;
+  display: none;
+  position: relative;
+}
+
+#typing::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background-color: var(--whatsapp-green-dark);
+  animation: blink 1.2s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  #messages {
+    padding: 10px 8px;
+  }
+  .message-container {
+    max-width: 90%;
+  }
+}
+
+/* Video Call Panel */
+
+.call-panel {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  height: 200px;
+  background: #000;
+  z-index: 9999;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.call-panel video#localVideo {
+  width: 100%;
+  height: 100%;
+}
+
+.call-panel video#remoteVideo {
+  position: absolute;
+  width: 100px;
+  height: 75px;
+  bottom: 10px;
+  right: 10px;
+  border: 2px solid white;
+  border-radius: 4px;
+}
+
+.call-end-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  background: #e74c3c;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* Incoming Call Modal */
+
+.call-modal {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--whatsapp-green);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 10000;
+  font-weight: 600;
+}
+
+.call-modal p {
+  margin: 0 0 10px 0;
+}
+
+.call-modal button {
+  background: white;
+  color: var(--whatsapp-green);
+  border: none;
+  border-radius: 6px;
+  margin-right: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.call-modal button:hover {
+  background: #d6f5e1;
+}
+
+/* Record button */
+
+.record-btn {
+  background-color: var(--whatsapp-green);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.record-btn:hover {
+  background-color: #1ebe5b;
+}
+
+.record-btn.recording {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Upload button (dosya gönderme) */
+
+button.upload-btn {
+  background-color: var(--whatsapp-green) !important;
+  color: white !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  user-select: none !important;
+  transition: background-color 0.3s ease !important;
+}
+
+button.upload-btn:hover {
+  background-color: #1ebe5b !important;
+}

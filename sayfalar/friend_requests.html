@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Arkadaşlık İstekleri</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ece5dd;
+            margin: 0;
+            padding: 40px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            max-width: 450px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 30px 25px;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #075e54;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: #fafafa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-weight: 600;
+            color: #333;
+            transition: background-color 0.2s ease;
+        }
+        li:hover {
+            background-color: #d4f5e1;
+        }
+        form {
+            margin: 0;
+        }
+        button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.4);
+        }
+        button:hover {
+            background-color: #128c7e;
+            box-shadow: 0 4px 10px rgba(18, 140, 126, 0.6);
+        }
+        button[name="action"][value="reject"] {
+            background-color: #e53935;
+            box-shadow: 0 3px 8px rgba(229, 57, 53, 0.4);
+        }
+        button[name="action"][value="reject"]:hover {
+            background-color: #b71c1c;
+            box-shadow: 0 4px 10px rgba(183, 28, 28, 0.6);
+        }
+        p.no-requests {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        a.back-link {
+            display: block;
+            text-align: center;
+            color: #128c7e;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        a.back-link:hover {
+            color: #075e54;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            button {
+                margin-left: 0;
+                width: 100%;
+                padding: 10px 0;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Arkadaşlık İstekleri</h1>
+
+        {% if requests %}
+            <ul>
+                {% for username in requests %}
+                    <li>
+                        {{ username }}
+                        <form method="POST" action="{{ url_for('respond_request') }}">
+                            <button type="submit" name="action" value="accept">Kabul Et</button>
+                            <button type="submit" name="action" value="reject">Reddet</button>
+                            <input type="hidden" name="username" value="{{ username }}" />
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-requests">Hiç arkadaşlık isteğiniz yok.</p>
+        {% endif %}
+
+        <a href="{{ url_for('friends') }}" class="back-link">← Arkadaş Listesine Dön</a>
+    </div>
+</body>
+</html>

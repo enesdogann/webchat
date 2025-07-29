@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sohbet Odası</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    #callButtons button {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 24px;
+      transition: color 0.3s ease;
+    }
+    #callButtons button:hover {
+      color: #4caf50; /* green hover effect */
+    }
+  </style>
+</head>
+<body
+  data-username="{{ username }}"
+  data-friend="{{ friend }}"
+  data-friend-avatar-url="{{ url_for('static', filename='avatars/' + friend_avatar) }}"
+>
+<header style="display: flex; align-items: center; gap: 15px;">
+  <a href="javascript:history.back()" aria-label="Geri" class="back-button" style="display: flex; align-items: center;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+  </a>
+  <img src="{{ url_for('static', filename='avatars/' + friend_avatar) }}" alt="Avatar" class="user-avatar" style="border-radius: 50%; width: 40px; height: 40px;" />
+  <p id="headerUsername" style="flex-grow: 1; margin: 0; font-weight: bold; color: white;">{{ friend }}</p>
+
+  <!-- Arama butonları -->
+  <div id="callButtons" style="display: flex; gap: 10px;">
+    <button id="voiceCallBtn" aria-label="Sesli Ara" title="Sesli Ara" type="button">
+      <i class="fas fa-phone"></i>
+    </button>
+    <button id="videoCallBtn" aria-label="Görüntülü Ara" title="Görüntülü Ara" type="button">
+      <i class="fas fa-video"></i>
+    </button>
+  </div>
+</header>
+
+<!-- Gelen arama modalı -->
+<div id="incomingCallModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background: #25d366; color: white; padding: 20px 30px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); z-index: 10000; text-align: center; min-width: 280px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <img id="callerAvatar" src="{{ url_for('static', filename='avatars/' + caller_avatar) }}" alt="Arayan Avatar" style="width: 60px; height: 60px; border-radius: 50%; margin-bottom: 15px; object-fit: cover;" />
+  <p style="font-size: 18px; margin: 0 0 10px 0;">
+    <strong id="callerName">Kullanıcı</strong> sizi arıyor
+  </p>
+  <div style="display: flex; justify-content: center; gap: 20px;">
+    <button id="acceptCallBtn" style="background-color: #4caf50; border: none; padding: 10px 20px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background-color 0.3s ease;">Kabul Et</button>
+    <button id="rejectCallBtn" style="background-color: #e74c3c; border: none; padding: 10px 20px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background-color 0.3s ease;">Reddet</button>
+  </div>
+</div>
+
+<!-- Video call panel -->
+<div id="video-call" class="call-panel" style="display:none; position:fixed; top:10px; right:10px; width:300px; height:200px; background:#000; z-index:9999; border-radius:8px; overflow:hidden;">
+  <video id="localVideo" autoplay muted playsinline style="width:100%; height:100%;"></video>
+  <video id="remoteVideo" autoplay playsinline style="position:absolute; width:100px; height:75px; bottom:10px; right:10px; border: 2px solid white; border-radius: 4px;"></video>
+  <button id="endCallBtn" style="position:absolute; top:5px; right:5px; z-index:10; background:#e74c3c; border:none; color:white; border-radius:50%; width:30px; height:30px; cursor:pointer;">×</button>
+</div>
+
+<div id="chat-container">
+  <ul id="messages"></ul>
+  <div id="typing"></div>
+
+<footer>
+  <button id="uploadBtn" class="upload-btn" style="color:white;" type="button">+</button>
+  <input type="file" id="fileInput" style="display:none" />
+  <div style="position: relative; flex: 1; display: flex; align-items: center;">
+    <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." autocomplete="off" style="flex: 1; padding-right: 40px;" />
+    <button id="emojiBtn" aria-label="Emoji Ekle" title="Emoji Ekle" type="button" class="emoji-btn" style="position: absolute; right: 8px; background: transparent; border: none; cursor: pointer; font-size: 18px;">🙂</button>
+  </div>
+  <button id="recordBtn" aria-label="Sesli Mesaj Gönder" title="Sesli Mesaj Gönder" type="button" class="record-btn">
+    <i class="fas fa-microphone"></i>
+  </button>
+  <button id="sendBtn" aria-label="Gönder" title="Gönder" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+      <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+    </svg>
+  </button>
+</footer>
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script type="module" src="{{ url_for('static', filename='chat-script.js') }}"></script>
+</body>
+</html>

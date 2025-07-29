@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Arkadaşlar</title>
+  <style>
+    /* Genel ayarlar */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ece5dd;
+      margin: 0;
+      padding: 30px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: #222;
+    }
+    
+    /* Hoşgeldin bölümü */
+   .welcome-message {
+  display: flex;
+  flex-direction: column; /* Yataydan dikeye çevirdik */
+  align-items: center;    /* İçeriği ortaladık */
+  gap: 15px;
+  margin-bottom: 30px;
+  background: rgba(0, 0, 0, 0.1); /* Hafif karartma, transparan siyah */
+  padding: 25px 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center; /* Metni ortala */
+}
+
+.welcome-message img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #25d366;
+}
+
+.welcome-message h2 {
+  color: #075e54;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  user-select: none;
+}
+
+    /* Linkler bölümü */
+    .links {
+      width: 100%;
+      max-width: 450px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .links a {
+      flex: 1;
+      background-color: #25d366;
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 14px 0;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .links a:hover {
+      background-color: #128c7e;
+      box-shadow: 0 6px 12px rgba(18, 140, 126, 0.5);
+    }
+
+    /* Arkadaş listesi */
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 450px;
+      width: 100%;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    li {
+      padding: 18px 25px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #222;
+    }
+    li:hover {
+      background-color: #25d366;
+      color: white;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+    li a {
+      flex-grow: 1;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Çıkış butonu */
+    .logout-btn {
+      max-width: 450px;
+      width: 100%;
+      margin: 0 auto 0 auto;
+      padding: 15px 0;
+      background: #128c7e;
+      color: white;
+      text-align: center;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(18, 140, 126, 0.5);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      display: block;
+    }
+    .logout-btn:hover {
+      background-color: #075e54;
+      box-shadow: 0 6px 14px rgba(7, 94, 84, 0.7);
+    }
+
+    /* Responsive ayarlar */
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 10px;
+      }
+      .welcome-message {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+      }
+      .welcome-message h2 {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      .links {
+        flex-direction: column;
+      }
+      .links a {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
+      li {
+        font-size: 1rem;
+        padding: 14px 20px;
+      }
+      .logout-btn {
+        font-size: 1rem;
+        padding: 14px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-message">
+    <img src="{{ url_for('static', filename='avatars/' + avatar) }}" alt="Avatar" />
+    <h2>Hoşgeldin, {{ username }}</h2>
+  </div>
+
+  <div class="links">
+    <a href="{{ url_for('add_friend') }}">Arkadaş Ekle</a>
+    <a href="{{ url_for('friend_requests') }}">Arkadaşlık İstekleri</a>
+  </div>
+
+  <ul>
+    {% for friend in friends %}
+      <li>
+        <a href="{{ url_for('chat_room', friend=friend) }}">{{ friend }}</a>
+      </li>
+    {% else %}
+      <li style="cursor: default; color: #999;">Hiç arkadaşınız yok.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{{ url_for('logout') }}" class="logout-btn">Çıkış Yap</a>
+
+</body>
+</html>

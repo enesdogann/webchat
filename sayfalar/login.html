@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Giriş Yap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ece5dd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+            width: 320px;
+        }
+        h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            color: #25d366;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #25d366;
+        }
+        button {
+            width: 100%;
+            background-color: #25d366;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #128c7e;
+        }
+        .register-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Giriş Yap</h2>
+
+        <!-- Eğer sunucudan hata mesajı gelirse burada göster -->
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <input type="text" name="username" placeholder="Kullanıcı Adı" required autofocus />
+            <input type="password" name="password" placeholder="Parola" required />
+            <button type="submit">Giriş</button>
+        </form>
+
+        <div class="register-link">
+            Henüz hesabınız yok mu? <a href="{{ url_for('register') }}">Kayıt Ol</a>
+        </div>
+    </div>
+</body>
+</html>

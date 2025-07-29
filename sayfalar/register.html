@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Kayıt Ol</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ece5dd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+            width: 320px;
+        }
+        h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            color: #25d366;
+        }
+        input[type="text"], input[type="password"], input[type="password"].confirm {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #25d366;
+        }
+        button {
+            width: 100%;
+            background-color: #25d366;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #128c7e;
+        }
+        .login-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        /* Avatar seçim alanı */
+        .avatar-selection {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .avatars {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .avatar-label {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            padding: 3px;
+            display: inline-block;
+            transition: border-color 0.3s ease;
+        }
+        .avatar-label:hover {
+            border-color: #25d366;
+        }
+        input[type="radio"].avatar-radio {
+            display: none;
+        }
+        input[type="radio"].avatar-radio:checked + .avatar-label {
+            border-color: #25d366;
+        }
+        .avatar-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="register-container">
+        <h2>Kayıt Ol</h2>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('register') }}" method="POST">
+            <input type="text" name="username" placeholder="Kullanıcı Adı" required autofocus />
+            <input type="password" name="password" placeholder="Parola" required />
+            <input type="password" name="password_confirm" placeholder="Parola (Tekrar)" required />
+
+            <div class="avatar-selection">
+    <div>Lütfen avatarınızı seçin:</div>
+   <div class="avatars">
+
+    <input type="radio" id="avatar4" name="avatar" value="4.png" class="avatar-radio" />
+    <label for="avatar4" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/4.png') }}" alt="Avatar 4" class="avatar-img" />
+    </label>
+    
+    <input type="radio" id="avatar2" name="avatar" value="2.png" class="avatar-radio" />
+    <label for="avatar2" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/2.png') }}" alt="Avatar 2" class="avatar-img" />
+    </label>
+
+    <input type="radio" id="avatar3" name="avatar" value="3.png" class="avatar-radio" />
+    <label for="avatar3" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/3.png') }}" alt="Avatar 3" class="avatar-img" />
+    </label>
+
+    <input type="radio" id="avatar5" name="avatar" value="5.png" class="avatar-radio" />
+    <label for="avatar5" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/5.png') }}" alt="Avatar 5" class="avatar-img" />
+    </label>
+
+      <input type="radio" id="avatar1" name="avatar" value="1.png" class="avatar-radio" checked />
+    <label for="avatar1" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/1.png') }}" alt="Avatar 1" class="avatar-img" />
+    </label>
+
+    <input type="radio" id="avatar6" name="avatar" value="6.png" class="avatar-radio" />
+    <label for="avatar6" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/6.png') }}" alt="Avatar 6" class="avatar-img" />
+    </label>
+
+    <input type="radio" id="avatar7" name="avatar" value="7.png" class="avatar-radio" />
+    <label for="avatar7" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/7.png') }}" alt="Avatar 7" class="avatar-img" />
+    </label>
+
+    <input type="radio" id="avatar8" name="avatar" value="8.png" class="avatar-radio" />
+    <label for="avatar8" class="avatar-label">
+        <img src="{{ url_for('static', filename='avatars/8.png') }}" alt="Avatar 8" class="avatar-img" />
+    </label>
+</div>
+</div>
+
+
+            <button type="submit">Kayıt Ol</button>
+        </form>
+
+        <div class="login-link">
+            Zaten hesabınız var mı? <a href="{{ url_for('login') }}">Giriş Yap</a>
+        </div>
+    </div>
+</body>
+</html>
